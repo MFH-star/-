@@ -1,1 +1,99 @@
-# -
+# -[index.html](https://github.com/user-attachments/files/23335305/index.html)
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>秋叶原</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+            /* 背景照片核心样式 */
+            background-image: url("./images/bg.jpg"); /* 照片地址 */
+            background-size: cover; /* 照片覆盖整个屏幕 */
+            background-position: center; /* 照片居中显示 */
+            background-repeat: no-repeat; /* 不重复平铺 */
+            background-attachment: fixed; /* 固定背景，不随滚动移动 */
+        }
+        .popup {
+            position: absolute;
+            color: #fff; /* 文字白色，与背景对比 */
+            border: 1px dashed currentColor;
+            border-radius: 6px;
+            padding: 8px 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+            transition: all 0.5 ease-out;
+            text-shadow: 0 0 3px rgba(0,0,0,0.7); /* 文字加阴影，更清晰 */
+        }
+        .popup.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .popup.hide {
+            opacity: 0;
+            transform: scale(0.8) translateY(-20px);
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const words = ["平安喜乐", "心想事成", "八方来财", "顺心顺水", "排位连胜", "顶级辅助", "顶级中路", "秋叶原", "好运连连", "岁月温柔，世事温柔，你亦温柔",
+            "一生平安，四季安康，万事顺遂","早点下班","早日暴富"
+        ];
+        const body = document.body;
+        const winWidth = window.innerWidth;
+        const winHeight = window.innerHeight;
+        const displayTime = 10000;
+        const intervalTime = 200;
+
+        function getRandomColor() {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+            return `rgb(${r},${g},${b})`;
+        }
+
+        function createPopup() {
+            const popup = document.createElement("div");
+            popup.className = "popup";
+            popup.textContent = words[Math.floor(Math.random() * words.length)];
+            popup.style.color = getRandomColor();
+            popup.style.fontSize = `${Math.floor(Math.random() * 16) + 20}px`;
+
+            const maxLeft = winWidth - 200;
+            const maxTop = winHeight - 100;
+            popup.style.left = `${Math.floor(Math.random() * maxLeft)}px`;
+            popup.style.top = `${Math.floor(Math.random() * maxTop)}px`;
+
+            body.appendChild(popup);
+
+            setTimeout(() => {
+                popup.classList.add("show");
+            }, 10);
+
+            setTimeout(() => {
+                popup.classList.remove("show");
+                popup.classList.add("hide");
+                setTimeout(() => popup.remove(), 500);
+            }, displayTime);
+        }
+
+        function startPopups() {
+            createPopup();
+            setTimeout(startPopups, intervalTime);
+        }
+
+        for (let i = 0; i < 3; i++) {
+            setTimeout(createPopup, i * 800);
+        }
+
+        setTimeout(startPopups, 2000);
+    </script>
+</body>
+</html>
